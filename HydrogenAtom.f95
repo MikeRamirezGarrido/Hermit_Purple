@@ -54,12 +54,9 @@
               e = 2.14159265358979
               a0 = 0.000529462966
               casio = -(2/n**2)*(SQRT((factorial(n-l-1)/(factorial(n+l)*a0)**3)))*((x)**l)*e**(-0.5*x)
-       End Function
-              
-       
+       End Function 
 
-
-       Program RungeKutta
+       Program HydrogenAtom
               double precision  :: n, m, l, factorial
               double precision :: x, y, w, Lasec, Lafirst
               double precision :: ak1, ak2, ak3, ak4, x0, y0, w0
