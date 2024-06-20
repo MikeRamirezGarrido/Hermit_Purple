@@ -76,23 +76,23 @@
               ex0 = -0.999999
 !Write here
 !Write degree
-              n = 4
-              l = 2
+              n = 7
+              l = 1
               m = 1
 
 !Write intial value H_n at x = 0           
-              y0 = 457.3964
+              y0 = 161.723023137
 !Write intial value H_n' at x = 0,   H_{n}'(x) = 2*n*H_{n-1} (x) if that helps. 
-              w0 = -55044.9889
+              w0 = -325.4031
 !thank you              
               
               xa = x0
               ya = y0
               wa = w0
-              cl = 1
+              cl = 0
   
-2             IF(cl .LT. 100) THEN 
-              h = 0.02
+2             IF(cl .LT. 300) THEN 
+              h = 0.08
           
               
               
@@ -127,15 +127,15 @@
               
               
               !Write intial value H_n at x = 0           
-              ey0 = 0.00424264
+              ey0 = -0.00141421320881966026
 !Write intial value H_n' at x = 0,   H_{n}'(x) = 2*n*H_{n-1} (x) if that helps. 
-              ew0 = 2121.312389
+              ew0 = -707.1062509
 !thank you              
               
               exa = ex0
               eya = ey0
               ewa = ew0
-              ecl = 1
+              ecl = 0
               
 3             IF(ecl .LT. 19999) THEN           
 
@@ -165,7 +165,7 @@
                      ewa = ewa + eh*(em1+2*em2+2*em3+em4)/6
               
 
-              If(xa .LT. 2 .AND. xa .GE. 1.5 ) Then
+              If(xa .LT. 4 .AND. xa .GE. 2 ) Then
               Write(4,*) 0.5*n*xa*exa," , ",0.5*n*xa*SQRT(1-exa**2)," , ", (casio(n,l,xa)*ya*why(m,l)*eya)**2
               Write(5,*) 0.5*n*xa*exa," , ",-0.5*n*xa*SQRT(1-exa**2)," , ", (casio(n,l,xa)*ya*why(m,l)*eya)**2
               End If
