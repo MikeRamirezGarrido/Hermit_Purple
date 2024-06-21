@@ -23,7 +23,7 @@
               double precision , intent(IN) :: n,l 
               double precision, intent(IN) :: x, La, MLa
               double precision :: Lasec
-              Lasec = -((2*l+2-x)*MLa+(n+l)*La)/(x)
+              Lasec = -((2*l+2-x)*MLa+(n-l-1)*La)/(x)
        End Function
        
        Function Lefirst(QLe)
@@ -51,9 +51,9 @@
        Function casio(n,l,x)
               double precision, intent(IN) :: n, l, x
               double precision :: a0, e, factorial, casio
-              e = 2.14159265358979
+              e = 2.7182818
               a0 = 0.000529462966
-              casio = -(2/n**2)*(SQRT((factorial(n-l-1)/(factorial(n+l)*a0)**3)))*((x)**l)*e**(-0.5*x)
+              casio = (2/n**2)*(SQRT((gamma(n-l)/(gamma(n+l+1)*a0**3))))*((x)**l)*e**(-0.5*x)
        End Function 
 
        Program HydrogenAtom
@@ -76,14 +76,14 @@
               ex0 = -0.999999
 !Write here
 !Write degree
-              n = 7
-              l = 1
-              m = 1
+              n = 1
+              l = 0
+              m = 0
 
 !Write intial value H_n at x = 0           
-              y0 = 161.723023137
+              y0 = 1
 !Write intial value H_n' at x = 0,   H_{n}'(x) = 2*n*H_{n-1} (x) if that helps. 
-              w0 = -325.4031
+              w0 = 0
 !thank you              
               
               xa = x0
@@ -91,8 +91,8 @@
               wa = w0
               cl = 0
   
-2             IF(cl .LT. 300) THEN 
-              h = 0.08
+2             IF(cl .LT. 200) THEN 
+              h = 0.02
           
               
               
@@ -127,9 +127,9 @@
               
               
               !Write intial value H_n at x = 0           
-              ey0 = -0.00141421320881966026
+              ey0 = 1
 !Write intial value H_n' at x = 0,   H_{n}'(x) = 2*n*H_{n-1} (x) if that helps. 
-              ew0 = -707.1062509
+              ew0 = 0
 !thank you              
               
               exa = ex0
@@ -165,7 +165,7 @@
                      ewa = ewa + eh*(em1+2*em2+2*em3+em4)/6
               
 
-              If(xa .LT. 4 .AND. xa .GE. 2 ) Then
+              If(xa .LT. 4.0 .AND. xa .GE. 3.5 ) Then
               Write(4,*) 0.5*n*xa*exa," , ",0.5*n*xa*SQRT(1-exa**2)," , ", (casio(n,l,xa)*ya*why(m,l)*eya)**2
               Write(5,*) 0.5*n*xa*exa," , ",-0.5*n*xa*SQRT(1-exa**2)," , ", (casio(n,l,xa)*ya*why(m,l)*eya)**2
               End If
