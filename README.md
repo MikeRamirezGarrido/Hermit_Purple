@@ -9,7 +9,6 @@ The codes contain the calculations of the wave function's squared value for the 
  Contact info:
  
 1 
-  * Tel.: 6681357959
   * Email: miguelramirez24083@gmail.com
   
 2
