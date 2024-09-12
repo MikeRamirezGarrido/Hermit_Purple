@@ -21,6 +21,7 @@
               double precision :: m1, m2, m3, m4
               double precision :: hbar, omega, masse, e, pi, xs, psi
               double precision :: T, Error, Low, Tlow, rho
+!For data output uncomment lines 25 and 77              
 !              Open(2, file="data.txt")
               Write(*,*) "Understanding Quantum Mechanics: From analytical to numerical analysis"
               Write(*,*) "Uni-dimesional quantum harmonic oscillator"
@@ -72,8 +73,9 @@
               	
               xs = SQRT(hbar/(masse*omega))*xa
               psi = ( 1/((2**n)*gamma(n+1))**0.5)*((masse*omega/(pi*hbar))**0.25)*(e**(-masse*omega*xs**2/(2*hbar)))
-	      
+!Data output	      
 !              Write(2,*) xs, ",", ya*psi, ",", (ya*psi)**2
+!Riemann Sum
               rho = ((ya*psi)**2)*xs*h/xa
               If(Low .GT. rho ) Then
                      Low = rho
@@ -85,6 +87,7 @@
               l = l + 1.0
               GO TO 1
               End If
+
               Error = 2*(T-Tlow)
               Write(*,*) T, Error
        End Program
