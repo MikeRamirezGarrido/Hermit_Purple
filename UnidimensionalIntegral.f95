@@ -1,6 +1,5 @@
-!Ramirez Garrido
-!Hydrogen atom's electron probability densisty and radiuses
-!Laguerre
+!Understanding Quantum Mechanics: From analytical to numerical analysis
+!Uni-dimesional quantum harmonic oscillator Intgral nm
   !Runge Kutta first function y' = w
        Function first(w)
               double precision, intent(IN) :: w
@@ -15,7 +14,7 @@
               sec = 2*x*w-2*n*y
        End Function
        
-  	 Program HydrogenAtom
+  	 Program UniIntegral
      		 double precision  :: n, m
      		 double precision :: sec, first
      		 double precision :: ak1, ak2, ak3, ak4, x0, y0, w0
@@ -25,30 +24,36 @@
      		 double precision :: em1, em2, em3, em4, eh, ei
      		 double precision :: eya, exa, ewa, ecl, a0
      		 double precision :: pi, masse, omega, e, xs, psi, axs, apsi, T
-!     		 Open(4,file='data.txt')
-!     		 Open(5,file='data2.txt')
+			 double precision :: Tlow, Low, rho
 
-     		 Write(*,*) "Ramirez Garrido"
-     		 Write(*,*) "Hydrogen atom's electron probability densisty and radiuses"
-     		 pi = 3.14159265D0
-               masse = 1.0D0
-               omega = 0.00031D0
-               hbar = 0.000115767D0
-               e = 2.718281828D0
-               T = 0.0D0
+     		 Write(*,*) "Understanding Quantum Mechanics: From analytical to numerical analysis"
+     		 Write(*,*) "Uni-dimesional quantum harmonic oscillator Intgral nm and its error"
+     		  pi = 3.14159265D0
+			  e = 2.718281828D0
+!hbar using the electron's mass as unit mass                 
+			  hbar = 0.000115767D0
+			 Low = 0.0D0
+			 Tlow = 0.0D0
+			 T = 0.0D0
+             
+             
      		 x0 = -6.0D0
      		 ex0 = -6.0D0
 !Write here
-!Write quantic numbers
+!Using the electron's mass as unit mass 			 
+			 masse = 1.0D0
+             omega = 0.00031D0
+
+!Write n and m
      		 n = 2.0D0
      		
      		 m = 8.0D0
     		 
      		 
     		 
-!Write intial value L at x = 0.001		 
+!Write intial value Hn at x = x0	 
      		 y0 = 142.0D0
-!Write intial value L' at x = 0.001
+!Write intial value Hn' at x = x0
      		 w0 = -48.0D0
    		 
      		 xa = x0
@@ -56,20 +61,18 @@
      		 wa = w0
      		 cl = 0
      		 
- !Write intial value P at x = -0.99999		 
+ !Write intial value Hm at x = x0	 
      		 ey0 = 279702672.0D0
-!Write intial value P' at x = -0.99999
+!Write intial value Hm' at x = x0
      		 ew0 = -417544704.0D0
    		 
      		 exa = ex0
      		 eya = ey0
      		 ewa = ew0
  
-2    		 IF(cl .LE. 1200) THEN
-     		 h = 0.01D0
-    		 
-            		 
-
+2    		 IF(cl .LE. 12000000) THEN
+     		 h = 0.000001D0
+    		    		 
      		 i = h/2
       
      		 ak1 = first(wa)
@@ -86,15 +89,9 @@
      		 wa = wa + h*(am1+2*am2+2*am3+am4)/6
    		 
      		 cl = cl + 1
-
                      
               xs = SQRT(hbar/(masse*omega))*xa
            	psi = ( 1/((2**n)*gamma(n+1))**0.5)*((masse*omega/(pi*hbar))**0.25)*(e**(-masse*omega*xs**2/(2*hbar)))	 
-     	
-
-
-     		 
-     		 
     		 
 
      		 ek1 = first(ewa)
@@ -112,22 +109,23 @@
      	
     		axs = SQRT(hbar/(masse*omega))*xa
            	apsi = ( 1/((2**n)*gamma(n+1))**0.5)*((masse*omega/(pi*hbar))**0.25)*(e**(-masse*omega*axs**2/(2*hbar)))
-              T = T + ya*eya*psi*apsi*xs*h/xa
-     	
-    		 
+
+!Riemann Sum			
+			rho = ya*eya*psi*apsi*xs*h/xa
+			If(Low .GT. rho ) Then
+				Low = rho
+		 	End If
+
+			 Tlow = Tlow + Low
+			 Low = rho
+			 T = T + rho
+
      		 GO TO 2
     		 
      		 End If
    		 
-     		 
-    	
-     		 
-    		 
-     	
-   		 
-!Last elements of the Laguerre's and Legendre's Runge-Kutta results. To compare  		 
-     		 Write(*,*) xa, ya
-     		 Write(*,*) exa, eya
-     		 Write(*,*) T
+			Error = 2*(T-Tlow)
+     		
+     		 Write(*,*) T, Error
      		 
   	 End Program
