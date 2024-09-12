@@ -99,7 +99,7 @@
 
 !If you want the data output change stepsize h to 0.01 and the number of repetitions 
 !to around 2000 for efficiency. Uncomment lines 64, 65, 181 and 182.           
-2            IF(cl .LE. 25223) THEN
+2            IF(cl .LE. 15155) THEN
              h = 0.001D0
              
                      If(cl .EQ. 0) THEN
