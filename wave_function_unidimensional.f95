@@ -1,12 +1,13 @@
-!Uni-dimesional quantum harmonic oscillator
-!Runge Kutta first function y' = w
+!Understanding Quantum Mechanics: From analytical to numerical analysis
+!Uni-dimesional quantum harmonic oscillator 
+!Hermite Runge Kutta first function y' = w
        Function first(w)
               double precision, intent(IN) :: w
               double precision :: first
               first = w
        End Function
               
-!Runge Kutta second function w' = 2xw-2ny   
+!Hermite Runge Kutta second function w' = 2xw-2ny   
        Function sec(n,x,y,w)
               double precision, intent(IN) :: n, x, y, w     
               double precision :: sec
@@ -19,26 +20,34 @@
               double precision :: m, h, i, l, ya, xa, wa
               double precision :: m1, m2, m3, m4
               double precision :: hbar, omega, masse, e, pi, xs, psi
-              double precision :: T, Error
-              Write(*,*) "Hermit Purple by Ramirez Garrido"
+              double precision :: T, Error, Low, Tlow, rho
+!              Open(2, file="data.txt")
+              Write(*,*) "Understanding Quantum Mechanics: From analytical to numerical analysis"
               Write(*,*) "Uni-dimesional quantum harmonic oscillator"
               Write(*,*) "Write initial values in source code"
               pi = 3.141592654D0
               e = 2.718281828D0
-              Error = 0.0D0
-!hbar using electron mass as mass unit               
+              
+!hbar using the electron's mass as unit mass                
               hbar = 0.000115767D0
+
 !Write here              
               x0 = -7.0D0
               masse = 1.0D0
               omega = 0.00031D0
-              n = 8.0D0
-!Write intial value H_n at x = x0     
-              y0 = 1085747600.0D0
-!Write intial value H_n' at x = x0,   H_{n}'(x) = 2*n*H_{n-1} (x) if that helps. 
-              w0 = 2*8*(-83965616.0D0)
+              n = 5.0D0
+              
+              Error = 0.0D0
+              Tlow = 0.0D0
+              Low = 0.0D0
               T = 0.0D0
-!              Open(2, file="data.txt")
+
+!Write intial value H_n at x = x0     
+              y0 = -483784.0D0
+!Write intial value H_n' at x = x0,   H_{n}'(x) = 2*n*H_{n-1} (x) if that helps. 
+              w0 = 2*5*(36076.0D0)
+              
+
               xa = x0
               ya = y0
               wa = w0
@@ -46,17 +55,8 @@
 1             IF(l .LT. 14000) THEN           
               h = 0.001D0
               
-              k1 = 0
-              k2 = 0
-              k3 = 0
-              k4 = 0
-              m1 = 0
-              m2 = 0
-              m3 = 0
-              m4 = 0
               i = h/2
-          
-       
+                 
 	       k1 = first(wa)
 		m1 = sec(n,xa,ya,wa)
        	k2 = first(wa+m1*i)
@@ -74,10 +74,17 @@
               psi = ( 1/((2**n)*gamma(n+1))**0.5)*((masse*omega/(pi*hbar))**0.25)*(e**(-masse*omega*xs**2/(2*hbar)))
 	      
 !              Write(2,*) xs, ",", ya*psi, ",", (ya*psi)**2
-              T = T + ((ya*psi)**2)*xs*h/xa
-              Error = Error + ((ya*psi)**2)*xs*h*(0.0005)/xa
+              rho = ((ya*psi)**2)*xs*h/xa
+              If(Low .GT. rho ) Then
+                     Low = rho
+              End If
+              Tlow = Tlow + Low
+              Low = rho
+              T = T + rho
+             
               l = l + 1.0
               GO TO 1
               End If
+              Error = 2*(T-Tlow)
               Write(*,*) T, Error
        End Program
